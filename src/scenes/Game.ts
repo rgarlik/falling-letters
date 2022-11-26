@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import FallingLetter from '../gameObjects/Game/FallingLetter';
 
 /**
  * The game scene itself. Numbers fall from the top part of the screen,
@@ -11,6 +12,9 @@ export default class Game extends Phaser.Scene {
   private _score: number = 0;
   private _scoreText?: Phaser.GameObjects.Text;
 
+  /**
+   * The player's current score
+   */
   public get score() {
     return this._score;
   }
@@ -27,6 +31,9 @@ export default class Game extends Phaser.Scene {
   private _timeLeftText?: Phaser.GameObjects.Text;
   private _highPrecisionTimer: number = 0;
 
+  /**
+   * The time in game that's left (in seconds)
+   */
   public get timeLeft() {
     return this._timeLeft;
   }
@@ -37,6 +44,14 @@ export default class Game extends Phaser.Scene {
       this._timeLeftText.text = String(setTime);
     }
   }
+
+  // Letter spawning
+  private _letterSpawnTimer: number = 0;
+  
+  /**
+   * The rate at which letters spawn (in seconds)
+   */
+  public letterSpawnRate: number = 250;
   
   constructor() {
     super('Game');
@@ -44,6 +59,9 @@ export default class Game extends Phaser.Scene {
 
   create() {
     const canvas = this.sys.game.canvas;
+
+    // Enable input
+    this.input.enabled = true;
 
     // Bottom scoreboard
     this.add.rectangle(0, canvas.height - 40, canvas.width * 2, 80 , 0x646464);
@@ -107,6 +125,13 @@ export default class Game extends Phaser.Scene {
     // End game when timer reaches zero
     if(this.timeLeft == 0) {
       // end game
+    }
+
+    // Spawn letters
+    this._letterSpawnTimer += delta;
+    if(this._letterSpawnTimer >= this.letterSpawnRate) {
+      this._letterSpawnTimer = 0;
+      new FallingLetter(this);
     }
   }
 }
