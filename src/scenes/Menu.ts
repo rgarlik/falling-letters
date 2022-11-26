@@ -32,6 +32,16 @@ export default class Menu extends Phaser.Scene {
             repeat: -1
         });
 
+        // Add subtext
+        const subtext = this.add.text(canvas.width / 2, canvas.height / 2 - 70, 'Created by github.com/rgarlik',
+            {
+                fontFamily: 'RobotoMono',
+                color: 'white',
+                fontSize: '20px'
+            }
+        );
+        subtext.setOrigin(0.5, 0.5);
+
         // Add play button
         const playButton = new MenuButton(this, canvas.width / 2, canvas.height / 2 + 50, 'Play!', () => { this.playButtonClicked() } );
     }  
