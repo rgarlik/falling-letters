@@ -79,22 +79,43 @@ import Game from "../../scenes/Game";
 
         // Destroy if beyond bounds of the screen
         if(this.y > this._canvas.height - 70) {
+            // Remove the zig zag tween if there is one
+            if(this._zigZagTween) {
+                this.scene.tweens.remove(this._zigZagTween);
+            }
             this.destroy();
         }
     }
 
     private _handleKeyEvent(event: KeyboardEvent) {
+        // If the letter is being deleted, do nothing
+        if(this.speed === 0) { return; }
+
         if(event.key.toUpperCase() == this.letter) {
             // The player just pressed this key.
             this._gameScene.score += this.golden ? 3 : 1;
-            this.destroy();
+            this.startDestroying();
         }
     }
 
-    preDestroy(): void {
-        // Remove the zig zag tween if there is one
+    /** Called whenever the key was
+     * correctly typed
+     */
+    startDestroying() {
+        this.speed = 0;
         if(this._zigZagTween) {
             this.scene.tweens.remove(this._zigZagTween);
-        }
+        };
+        this.setColor('red');
+        this.setBackgroundColor('transparent');
+        // add an animation for the disappearing key
+        this.scene.tweens.add({
+            targets: this,
+            alpha: 0,
+            duration: 500,
+            ease: 'Sine.inOut',
+            yoyo: false,
+            repeat: 0
+        }).setCallback('onComplete', () => {this.destroy()}, ['something']); //TODO: find a way to bypass `callback params is undefined` error without passing parameters
     }
 }
