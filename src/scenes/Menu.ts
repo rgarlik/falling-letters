@@ -15,7 +15,7 @@ export default class Menu extends Phaser.Scene {
         // Create animated title
         const title = this.add.text(canvas.width / 2, canvas.height / 2 - 100, 'Falling Letters',
             {
-                fontFamily: 'Comic Sans',
+                fontFamily: 'RobotoMono',
                 color: 'white',
                 fontSize: '30px'
             }
@@ -31,6 +31,6 @@ export default class Menu extends Phaser.Scene {
         });
 
         // Create play button
-        
+
     }  
 }

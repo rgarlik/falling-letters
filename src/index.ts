@@ -3,8 +3,17 @@ import config from './config';
 import GameScene from './scenes/Game';
 import Menu from './scenes/Menu';
 
-new Phaser.Game(
-  Object.assign(config, {
-    scene: [Menu, GameScene]
-  })
-);
+// Start game after font was loaded
+
+const font = new FontFace('RobotoMono', `url('/assets/RobotoMono-Medium.ttf')`);
+
+font.load().then((loaded) => {
+  document.fonts.add(loaded);
+  new Phaser.Game(
+    Object.assign(config, {
+      scene: [Menu, GameScene]
+    })
+  );  
+}).catch((err) => {
+  return err;
+})
