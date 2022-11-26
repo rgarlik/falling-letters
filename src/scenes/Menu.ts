@@ -1,5 +1,7 @@
 import Phaser from 'phaser';
 
+import MenuButton from '../gameObjects/Menu/MenuButton';
+
 /**
  * Menu is the main menu scene of the webapp, featuring a title and a 
  * button to start the game.
@@ -30,7 +32,7 @@ export default class Menu extends Phaser.Scene {
             repeat: -1
         });
 
-        // Create play button
-
+        // Add play button
+        const playButton = new MenuButton(this, canvas.width / 2, canvas.height / 2 + 50, 'Play!', () => {console.log('click')});
     }  
 }
