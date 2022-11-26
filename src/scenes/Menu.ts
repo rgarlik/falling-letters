@@ -33,6 +33,11 @@ export default class Menu extends Phaser.Scene {
         });
 
         // Add play button
-        const playButton = new MenuButton(this, canvas.width / 2, canvas.height / 2 + 50, 'Play!', () => {console.log('click')});
+        const playButton = new MenuButton(this, canvas.width / 2, canvas.height / 2 + 50, 'Play!', () => { this.playButtonClicked() } );
     }  
+
+    // What happens when the play button is clicked
+    private playButtonClicked() {
+        this.scene.start('Game');
+    }
 }
