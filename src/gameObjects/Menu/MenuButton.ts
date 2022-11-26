@@ -3,8 +3,6 @@
  */
 export default class MenuButton extends Phaser.GameObjects.Text {
     constructor(scene: Phaser.Scene, x: number, y: number, text: string, onclick: Function) {
-        const canvas = scene.sys.game.canvas;
-
         // Create button
         super(scene, x, y, text,
         {
