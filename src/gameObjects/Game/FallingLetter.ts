@@ -96,7 +96,7 @@ import Game from "../../scenes/Game";
 
         this._cleanup();
 
-        this.setColor('red');
+        this.golden ? this.setColor('#fcff7e') : this.setColor('red');
         this.setBackgroundColor('transparent');
 
         if(this.golden) {
