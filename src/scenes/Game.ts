@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import FallingLetter from '../gameObjects/Game/FallingLetter';
+import { FinishSceneData } from './Finish';
 
 /**
  * The game scene itself. Numbers fall from the top part of the screen,
@@ -165,7 +166,12 @@ export default class Game extends Phaser.Scene {
 
     // End game when timer reaches zero
     if(this.timeLeft == 0) {
-      // end game
+      const finishSceneData : FinishSceneData = {
+        totalScore: this.score,
+        capturedLetters: this.normalLettersCaptured,
+        capturedGoldLetters: this.goldenLettersCaptured
+      }
+      this.scene.start('Finish', finishSceneData);
     }
 
     // Spawn letters

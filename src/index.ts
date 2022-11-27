@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import config from './config';
 import GameScene from './scenes/Game';
 import Menu from './scenes/Menu';
+import Finish from './scenes/Finish';
 
 // Start game after font was loaded
 
@@ -11,7 +12,7 @@ font.load().then((loaded) => {
   document.fonts.add(loaded);
   new Phaser.Game(
     Object.assign(config, {
-      scene: [Menu, GameScene]
+      scene: [Menu, GameScene, Finish]
     })
   );  
 }).catch((err) => {
