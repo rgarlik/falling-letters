@@ -12,19 +12,52 @@ export default class Game extends Phaser.Scene {
   private _score: number = 0;
   private _scoreText?: Phaser.GameObjects.Text;
 
+  public mapOfLetters : Map<string, FallingLetter[]>;
+
+  /**
+   * The score multiplier for a gold letter
+   */
+  readonly GOLD_LETTER_PRICE : number = 3;
+
   /**
    * The player's current score
    */
-  public get score() {
-    return this._score;
+  public get score() : number {
+    return this._normalLettersCaptured + (this._goldenLettersCaptured * this.GOLD_LETTER_PRICE);
   }
 
-  public set score(setScore: number) {
-    this._score = setScore;
+  /**
+   * How many regular letters the player captured
+   */
+  public set normalLettersCaptured(newScore: number) {
+    this._normalLettersCaptured = newScore;
+
     if(this._scoreText) {
-      this._scoreText.text = String(setScore);
+      this._scoreText.text = String(this.score);
     }
   }
+
+  public get normalLettersCaptured() {
+    return this._normalLettersCaptured;
+  }
+
+  /**
+   * How many gold letters the player captured
+   */
+  public set goldenLettersCaptured(newScore: number) {
+    this._goldenLettersCaptured = newScore;
+
+    if(this._scoreText) {
+      this._scoreText.text = String(this.score);
+    }
+  }
+
+  public get goldenLettersCaptured() {
+    return this._goldenLettersCaptured;
+  }
+
+  private _normalLettersCaptured : number = 0;
+  private _goldenLettersCaptured : number = 0;
 
   // Time
   private _timeLeft: number = 0;
@@ -55,6 +88,7 @@ export default class Game extends Phaser.Scene {
   
   constructor() {
     super('Game');
+    this.mapOfLetters = new Map<string, FallingLetter[]>();
   }
 
   create() {
@@ -110,8 +144,15 @@ export default class Game extends Phaser.Scene {
 
     // Prepare score and time
     this.timeLeft = 20;
-    this.score = 0;
     this._highPrecisionTimer = 0;
+
+    // Initial display of the score
+    if(this._scoreText) {
+      this._scoreText.text = String(this.score);
+    }
+
+    // Create keyboard event
+    this.input.keyboard.on('keydown', (event: KeyboardEvent) => {this._handleKeyEvent(event)});
   }
 
   update(time: number, delta: number) {
@@ -131,7 +172,31 @@ export default class Game extends Phaser.Scene {
     this._letterSpawnTimer += delta;
     if(this._letterSpawnTimer >= this.letterSpawnRate) {
       this._letterSpawnTimer = 0;
-      new FallingLetter(this);
+      const newLetter = new FallingLetter(this);
+
+      // Add new letter to map of letters
+      if(this.mapOfLetters.has(newLetter.letter)) {
+        this.mapOfLetters.get(newLetter.letter)?.push(newLetter);
+      } else {
+        this.mapOfLetters.set(newLetter.letter, [ newLetter ]);
+      }
+      
     }
+  }
+
+  /**
+   * Fires every time a key is pressed
+   */
+  private _handleKeyEvent(event: KeyboardEvent) : void { 
+    // If there is a letter like that on-screen
+    if( Array.from(this.mapOfLetters.keys()).includes(event.key.toUpperCase()) ) {
+      // ..capture those letters
+      this.mapOfLetters.get(event.key.toUpperCase())?.forEach(
+        letter => letter.captured()
+      );
+    }
+
+    // Delete letters from map
+    this.mapOfLetters.delete(event.key.toUpperCase());
   }
 }

@@ -68,9 +68,6 @@ import Game from "../../scenes/Game";
 
         // Attach to scene
         scene.add.existing(this);
-
-        // Attach to scene's input handling
-        scene.input.keyboard.on('keydown', (event: KeyboardEvent) => {this._handleKeyEvent(event)});
     }
 
     preUpdate(delta: number, time: number) {
@@ -79,37 +76,37 @@ import Game from "../../scenes/Game";
 
         // Destroy if beyond bounds of the screen
         if(this.y > this._canvas.height - 70) {
-            // Remove the zig zag tween if there is one
-            if(this._zigZagTween) {
-                this.scene.tweens.remove(this._zigZagTween);
+            this._cleanup();
+            // Remove this object from the map
+            const index = this._gameScene.mapOfLetters.get(this.letter)?.indexOf(this);
+            if(index !== undefined) {
+                this._gameScene.mapOfLetters.get(this.letter)?.splice(index, 1);
             }
             this.destroy();
         }
     }
 
-    private _handleKeyEvent(event: KeyboardEvent) {
-        // If the letter is being deleted, do nothing
-        if(this.speed === 0) { return; }
-
-        if(event.key.toUpperCase() == this.letter) {
-            // The player just pressed this key.
-            this._gameScene.score += this.golden ? 3 : 1;
-            this.startDestroying();
-        }
-    }
-
-    /** Called whenever the key was
+    /**
+     * Called whenever the key was
      * correctly typed
      */
-    startDestroying() {
+    public captured() {
+        // Stop the letter from falling as it's disappearing
         this.speed = 0;
-        if(this._zigZagTween) {
-            this.scene.tweens.remove(this._zigZagTween);
-        };
+
+        this._cleanup();
+
         this.setColor('red');
         this.setBackgroundColor('transparent');
+
+        if(this.golden) {
+            this._gameScene.goldenLettersCaptured++;
+        } else {
+            this._gameScene.normalLettersCaptured++;
+        }
+
         // add an animation for the disappearing key
-        this.scene.tweens.add({
+        this._gameScene.tweens.add({
             targets: this,
             alpha: 0,
             duration: 500,
@@ -117,5 +114,15 @@ import Game from "../../scenes/Game";
             yoyo: false,
             repeat: 0
         }).setCallback('onComplete', () => {this.destroy()}, ['something']); //TODO: find a way to bypass `callback params is undefined` error without passing parameters
+    }
+
+    /**
+     * Remove all data this object left on the game scene
+     */
+    private _cleanup() {
+        // Remove the zig zag tween if there is one
+        if(this._zigZagTween) {
+            this._gameScene.tweens.remove(this._zigZagTween);
+        }
     }
 }
