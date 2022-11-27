@@ -146,6 +146,12 @@ export default class Game extends Phaser.Scene {
     // Prepare score and time
     this.timeLeft = 20;
     this._highPrecisionTimer = 0;
+    this._letterSpawnTimer = 0;
+
+    this.mapOfLetters = new Map<string, FallingLetter[]>();
+
+    this._goldenLettersCaptured = 0;
+    this._normalLettersCaptured = 0;
 
     // Initial display of the score
     if(this._scoreText) {
