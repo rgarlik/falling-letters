@@ -1,3 +1,5 @@
+import MenuButton from "../gameObjects/Menu/MenuButton";
+
 /**
  * A scene that appears after a game is over, showing the
  * player their score
@@ -91,6 +93,18 @@ export default class Finish extends Phaser.Scene {
             }
         );
         x3Label.setOrigin(0.5, 0.5);
+
+        // Interactive buttons
+        new MenuButton(this, canvas.width / 2, canvas.height / 2 + 150, 'Play again!', () => { this.playAgainButtonClicked() } );
+        new MenuButton(this, canvas.width / 2, canvas.height / 2 + 180, 'Menu', () => { this.menuButtonClicked() } );
+    }
+
+    private playAgainButtonClicked() {
+        this.scene.start('Game');
+    }
+
+    private menuButtonClicked() {
+        this.scene.start('Menu');
     }
 }
 

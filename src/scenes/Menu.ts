@@ -43,7 +43,7 @@ export default class Menu extends Phaser.Scene {
         subtext.setOrigin(0.5, 0.5);
 
         // Add play button
-        const playButton = new MenuButton(this, canvas.width / 2, canvas.height / 2 + 50, 'Play!', () => { this.playButtonClicked() } );
+        new MenuButton(this, canvas.width / 2, canvas.height / 2 + 50, 'Play!', () => { this.playButtonClicked() } );
     }  
 
     // What happens when the play button is clicked
