@@ -1,27 +1,17 @@
-<h1 align="center">
-  <br>
-  <a href="https://github.com/geocine/phaser3-rollup-typescript#readme"><img src="https://i.imgur.com/6lcIxDs.png" alt="header" width="600"/></a>
-  <br>
-  Phaser 3 TypeScript Starter
-  <br>
-</h1>
+# Falling Letters
 
-This is a [Phaser 3](https://github.com/photonstorm/phaser) starter with [TypeScript](https://www.typescriptlang.org/), [Rollup](https://rollupjs.org) with ⚡️ lightning fast HMR through [Vite](https://vitejs.dev/).
+This is a simple typing game implemented using [Phaser 3](https://github.com/photonstorm/phaser) and [TypeScript](https://www.typescriptlang.org/). Building is handled by [Rollup](https://rollupjs.org) through [Vite](https://vitejs.dev/).
 
-## Available Commands
+Built on top of [geocine](https://github.com/geocine)'s amazing [Phaser 3 starter](https://github.com/geocine/phaser3-rollup-typescript).
 
-| Command | Description |
-|---------|-------------|
-| `yarn install` | Install project dependencies |
-| `yarn dev` | Builds project and open web server, watching for changes |
-| `yarn build` | Builds code bundle with production settings  |
-| `yarn serve` | Run a web server to serve built code bundle |
+This project is also hosted on Vercel, if you don't feel like cloning the repo to play: [https://falling-letters.vercel.app/](https://falling-letters.vercel.app/)
 
-## Development
+## ⚙️ Get it running
 
-After cloning the repo, run `yarn install` from your project directory. Then, you can start the local development
-server by running `yarn dev` and navigate to http://localhost:3000.
+After cloning the repository, install the dependencies by running `npm install` in the root folder of this project. If you're using [yarn](https://yarnpkg.com/), use `yarn install`.
 
-## Production
+You can spin up a development server with live hot-loading by running `npm run dev`. If you're using yarn, use `yarn dev`. After running the command, navigate your browser to [http://localhost:3000/](http://localhost:3000/) where the development instance should be running.
 
-After running `yarn build`, the files you need for production will be on the `dist` folder. To test code on your `dist` folder, run `yarn serve` and navigate to http://localhost:5000
+## ⚒️ Building for production
+
+Run `npm run build` or `yarn build` to build the project into a production-ready bundle. The project will be built into a folder called `dist` in the project's root folder. To test out the production build, you can use the `npm run serve` or `yarn serve` command to host the contents of the `dist` folder on a local server. After running the `serve` command, navigate your browser to [http://localhost:5000](http://localhost:5000)
